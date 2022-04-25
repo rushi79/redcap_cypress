@@ -110,7 +110,7 @@ Please read our [Quick-Start Guide](https://github.com/aldefouw/redcap_cypress/w
 ### Automated Testing Requirements
 
 Automated testing of REDCap requires two things:
-- REDCap Test Instance
+- REDCap Test Instance (in most cases, [Docker REDCap Instance](https://github.com/aldefouw/redcap_docker) )
 - REDCap Cypress Test Framework (this repository)
 
 The combination of the REDCap Test Instance and the Test Framework is considered your "Test Enivronment."
@@ -150,9 +150,7 @@ The other half necessary is to configure your Test Framework, which is covered b
 
 Although configuring your environment is outside the scope of this document, there are several consortium members who have successfully configured Docker containers.  
 
-**If you need help getting started with Docker, consider looking at or downloading Andy Martin's [REDCap Docker Compose](https://github.com/123andy/redcap-docker-compose) repository.**
-
-Alternatively, if you understand how REDCap works well, you can use Adam De Fouw's lightweight [REDCap Docker](https://github.com/aldefouw/redcap_docker) repository.  Please note that this repository requires the REDCap source files to be on your machine.
+**If you need help getting started with Docker, you can use the following repository as a starting point: [REDCap Docker](https://github.com/aldefouw/redcap_docker) repository.  Please note that this repository requires the REDCap source files to be on your machine.**
 
 ---
 ### Test Framework 
@@ -402,33 +400,9 @@ After your test suite is mature, it will be faster to run your tests in headless
 # Windows Environments
 ~~*Configuring and resetting your database on a Windows environment is not possible at this time.*~~
 
-It's taken a fair bit of effort and testing, but it's now possible to run the framework in Windows.  This is done through a database-seeding batch script (db.bat) that essentially mirrors the same functionality as the db.sh script for Unix-style environments.  
+It's taken a fair bit of effort and testing, but it's now possible to run the framework in Windows.  
 
-**Please note that you will need to ensure that you have the MySQL Command Line Interface and Sed utilities installed and available to your local Windows system at command line interface.**  If you do not have these utilities available, your database seeds will not work and the tests will not run appropriately.   
-
-Thankfully, these are easily configured on your Windows system through the [Chocolatey](https://chocolatey.org/docs/installation) package manager.
-
-Please note that you will need to administrator rights to install both [Chocolatey](https://chocolatey.org/docs/installation) and the dependencies.
-
-### Installing Chocolatey
-
-`PowerShell.exe -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"`
-
-The above one-liner will typically work to install Chocolatey package manager.  If it does not, please view the installation documentation here:
-
-[https://chocolatey.org/docs/installation](https://chocolatey.org/docs/installation)
-
-
-#### Installing MySQL and Sed using Chocolatey
-
-```shell
-choco install mysql-cli
-choco install sed
-```
-
-Typically, Chocolatey will add these binaries into your $PATH automatically. 
-
-However, in case you need to build Chocolatey from source, you can add in these paths to the system $PATH manually.  (You do so by navigating to "Advanced System Settings" > "Environment Variables" in the Advanced tab of the System Properties window. These utilities need to be a part of your path because these two binaries are used in the database seeding process.)
+By using ShellJS library, all database integrations are cross-platform compatible.
 
 Please see our wiki page for [Pre-Requisites to Using & Installing Framework](https://github.com/aldefouw/redcap_cypress/wiki/Pre-Requisites-to-Using-&-Installing-Framework#chocolatey) for additional details.
 

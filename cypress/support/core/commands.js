@@ -200,19 +200,23 @@ Cypress.Commands.add('add_field', (field_name, type) => {
 Cypress.Commands.add('add_users_to_project', (usernames = [], project_id) => {
       cy.visit_version({page: 'UserRights/index.php', params: 'pid=' + project_id})
 
+      cy.intercept('/redcap_v' + Cypress.env('redcap_version') + '/UserRights/edit_user.php?*').as('edit_user')
+
       //Add each username specified
       for(var username of usernames){
-        cy.get('input#new_username',).type(username, {force: true})
-        cy.get('button#addUserBtn').click({force: true})
-        cy.get('div#editUserPopup').should(($div) => {
-          expect($div).to.be.visible
-        })
+        cy.get('input#new_username',).type(username, {force: true}).then(() => {
+          cy.get('button#addUserBtn').click({force: true})
+          cy.get('div#editUserPopup').should(($div) => {
+            expect($div).to.be.visible
+          })
 
-        let button_label = /(Save Changes|Add user)/
+          let button_label = /(Save Changes|Add user)/
 
-        cy.get('button').contains(button_label).click()
-        cy.get('div#working').should(($div) => {
-          expect($div).to.not.be.visible
+          cy.get('button').contains(button_label).click()
+
+          cy.get('div#working').should(($div) => {
+            cy.wait('@edit_user')
+          })
         })
       }
 })
@@ -331,6 +335,21 @@ Cypress.Commands.add('export_csv_report', () => {
   })
 })
 
+Cypress.Commands.add('export_logging_csv_report', () => {
+  cy.get('button').should('be.visible').and('be.enabled').contains('Export all logging (CSV)').then((b) => {
+    cy.window().then((win) => {
+      let url = win.eval(b[0].getAttribute('onclick').split('window.location.href=')[1]);
+      cy.log(url);
+      cy.request(url).then(({ body, headers }) => {
+        expect(headers).to.have.property('content-type', 'application/csv')
+        return body;
+      }).then((body) => {
+        return cy.task('parseCsv', {csv_string: body});
+      });
+    });
+  });
+})
+
 Cypress.Commands.add('verify_export_deidentification_options', (selector) => {
   // This assumes user already has export dialog open
   cy.get(selector).click()
@@ -341,4 +360,11 @@ Cypress.Commands.add('verify_export_deidentification_options', (selector) => {
   cy.get('#deid-dates-remove').should('be.enabled')
   cy.get('#deid-dates-shift').should('be.enabled').check()
   cy.get('#deid-surveytimestamps-shift').should('be.enabled')
+})
+
+Cypress.Commands.add('move_project_to_production', (project_id, keep_data = true) => {
+  cy.visit_version({page: 'ProjectSetup/index.php', params: `pid=${project_id}`})
+  cy.get('button').contains('Move project to production').should('be.visible').click()
+  cy.get(`input#${keep_data ? "keep_data" : "delete_data"}`).check()
+  cy.get('button').contains('YES, Move to Production Status').should('be.visible').click()
 })

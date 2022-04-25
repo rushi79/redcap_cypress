@@ -41,7 +41,20 @@ describe('System Security Settings', () => {
 			cy.set_user_type('admin')
 			cy.visit_version({page: 'ControlCenter/general_settings.php'})
 			cy.get('select').contains('SYSTEM OFFLINE').parent().select('SYSTEM OFFLINE')
-			cy.get('input').contains('Save Changes').click({force: true})
+
+			cy.get('input').contains('Save Changes').click({force: true}).then(() => {
+				cy.get('body').should(($body) => {
+					expect($body).to.contain('Your system configuration values have now been changed')
+				})
+			})
+		})
+
+		it('Should display system offline message when admin logs in', () => {
+			//User is already an Admin
+			cy.visit_base({url: 'index.php'})
+			cy.get('div').should(($div) => {
+				expect($div).to.contain('REDCap and all its projects are currently OFFLINE and are not accessible to normal users.')
+			})
 		})
 
 		it('Should display system offline message when user logs in', () => {
@@ -49,14 +62,6 @@ describe('System Security Settings', () => {
 			cy.visit_base({url: 'index.php'})
 			cy.get('div').should(($div) => {
 				expect($div).to.contain('REDCap is currently offline. Please return at another time. We apologize for any inconvenience.')
-			})
-		})
-
-		it('Should display system offline message when admin logs in', () => {
-			cy.set_user_type('admin')
-			cy.visit_base({url: 'index.php'})
-			cy.get('div').should(($div) => {
-				expect($div).to.contain('REDCap and all its projects are currently OFFLINE and are not accessible to normal users.')
 			})
 		})
 
