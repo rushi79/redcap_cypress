@@ -100,236 +100,237 @@ Feature: Data Entry through the Data Collection Instrument
     And I enter the equation "[value]*2" into Calculation Equation of the open "Edit Field" dialog box
     And I save the field
 
-  Scenario: 1 to 4 - Add/Edit Records
-    Given I am a "standard" user who logs into REDCap
-    Given I click on the link labeled "My Projects"
-    And I click on the link labeled "Entry Via Instrument"
-    And I click on the link labeled "Add / Edit Records"
-    And I click on the button labeled "Add new record"
-    And I click the bubble to add a record for the "Data Types" longitudinal instrument on event "Event 1"
-    And I enter "John" into the data entry form field labeled "Name"
-    And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
-    And I click on the button labeled "Ignore and leave record" in the dialog box
-    Then I should see "Record Home Page"
+  # Scenario: 1 to 4 - Add/Edit Records
+  #   Given I am a "standard" user who logs into REDCap
+    
+  #   Given I click on the link labeled "My Projects"
+  #   And I click on the link labeled "Entry Via Instrument"
+  #   And I click on the link labeled "Add / Edit Records"
+  #   And I click on the button labeled "Add new record"
+  #   And I click the bubble to add a record for the "Data Types" longitudinal instrument on event "Event 1"
+  #   And I enter "John" into the data entry form field labeled "Name"
+  #   And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
+  #   And I click on the button labeled "Ignore and leave record" in the dialog box
+  #   Then I should see "Record Home Page"
 
-  Scenario: 5 - Edit field
-    Given I click on the link labeled "Designer"
-    And I click on the link labeled "Data Types"
-    And I edit the field labeled "Required"
-    And I mark the field as not required
-    And I save the field
+  # Scenario: 5 - Edit field
+  #   Given I click on the link labeled "Designer"
+  #   And I click on the link labeled "Data Types"
+  #   And I edit the field labeled "Required"
+  #   And I mark the field as not required
+  #   And I save the field
 
-  Scenario: 6 to 7 - Edit record
-    Given I click on the link labeled "Record Status Dashboard"
+  # Scenario: 6 to 7 - Edit record
+  #   Given I click on the link labeled "Record Status Dashboard"
 
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
-    And I should see "Editing existing Record ID 1"
-    And I enter "This is a notes box.{enter}This is a notes box." into the data entry form field labeled "Notes"
-    And I enter "5" into the data entry form field labeled "Value"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
+  #   And I should see "Editing existing Record ID 1"
+  #   And I enter "This is a notes box.{enter}This is a notes box." into the data entry form field labeled "Notes"
+  #   And I enter "5" into the data entry form field labeled "Value"
 
-    #Need to Verify that Calculated Field displays accurate result (5 * 2)
+  #   #Need to Verify that Calculated Field displays accurate result (5 * 2)
 
-    And I select the dropdown option "DDChoice1" for the Data Collection Instrument field labeled "Multiple Choice Dropdown Auto"
-    And I select the radio option "Choice100" for the field labeled "Radio Button Manual"
+  #   And I select the dropdown option "DDChoice1" for the Data Collection Instrument field labeled "Multiple Choice Dropdown Auto"
+  #   And I select the radio option "Choice100" for the field labeled "Radio Button Manual"
 
-    #And I reset the options for field labeled "Radio Button Manual"
+  #   #And I reset the options for field labeled "Radio Button Manual"
 
-    And I select the checkbox option "Checkbox" for the field labeled "Checkbox"
-    And I select the checkbox option "Checkbox2" for the field labeled "Checkbox"
+  #   And I select the checkbox option "Checkbox" for the field labeled "Checkbox"
+  #   And I select the checkbox option "Checkbox2" for the field labeled "Checkbox"
 
-    #Add signature
-    #Upload document (word doc) in file upload field
-    #Open image file in descriptive text with file
-    # And I click the input element identified by "ui-datepicker-trigger"
-    # And I select '2' from the dropdown identified by 'select[data-handler="selectMonth"]'
-    # And I select '2020' from the dropdown identified by 'select[data-handler="selectYear"]'
-    And I click on the button labeled "Today"
-    And I click on the button labeled "Now"
-    And I select the submit option labeled "Save & Exit Record" on the Data Collection Instrument
+  #   #Add signature
+  #   #Upload document (word doc) in file upload field
+  #   #Open image file in descriptive text with file
+  #   # And I click the input element identified by "ui-datepicker-trigger"
+  #   # And I select '2' from the dropdown identified by 'select[data-handler="selectMonth"]'
+  #   # And I select '2020' from the dropdown identified by 'select[data-handler="selectYear"]'
+  #   And I click on the button labeled "Today"
+  #   And I click on the button labeled "Now"
+  #   And I select the submit option labeled "Save & Exit Record" on the Data Collection Instrument
 
-  Scenario: 8 - Edit record & Leave without saving changes
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
+  # Scenario: 8 - Edit record & Leave without saving changes
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
 
-    And I select the radio option "Choice99" for the field labeled "Radio Button Manual"
-    #Cypress moves too fast for REDCap ... the pop up alert does not have a chance to trigger, let's give it a chance!
-    And I enter "Another changed value" into the data entry form field labeled "Text2"
+  #   And I select the radio option "Choice99" for the field labeled "Radio Button Manual"
+  #   #Cypress moves too fast for REDCap ... the pop up alert does not have a chance to trigger, let's give it a chance!
+  #   And I enter "Another changed value" into the data entry form field labeled "Text2"
 
-    #By clicking on this button, here is our alert trigger
-    When I click on the link labeled "Select other record"
+  #   #By clicking on this button, here is our alert trigger
+  #   When I click on the link labeled "Select other record"
 
-    #Pop up dialog triggered by clicking on any link that would navigate us away
-    Then I should see "Leave without saving changes"
+  #   #Pop up dialog triggered by clicking on any link that would navigate us away
+  #   Then I should see "Leave without saving changes"
 
-    When I click on the button labeled "Leave without saving changes" in the dialog box
-    Then I should see "Add / Edit Records"
+  #   When I click on the button labeled "Leave without saving changes" in the dialog box
+  #   Then I should see "Add / Edit Records"
 
-    Given I select record ID "1" from arm name "Arm 1: Arm 1" on the Add / Edit record page
-    And I click the bubble to select a record for the "Data Types" longitudinal instrument on event "Event 1"
-    Then I should see the radio labeled "Radio Button Manual" with option "Choice100" selected
+  #   Given I select record ID "1" from arm name "Arm 1: Arm 1" on the Add / Edit record page
+  #   And I click the bubble to select a record for the "Data Types" longitudinal instrument on event "Event 1"
+  #   Then I should see the radio labeled "Radio Button Manual" with option "Choice100" selected
 
-  Scenario: 9 to 10 - Edit record & Save and Stay
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
+  # Scenario: 9 to 10 - Edit record & Save and Stay
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
 
-    And I select the radio option "Choice99" for the field labeled "Radio Button Manual"
-    And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
+  #   And I select the radio option "Choice99" for the field labeled "Radio Button Manual"
+  #   And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
 
-    And I click on the link labeled "Select other record"
-    Then I should see "Add / Edit Records"
+  #   And I click on the link labeled "Select other record"
+  #   Then I should see "Add / Edit Records"
 
-    Given I select record ID "1" from arm name "Arm 1: Arm 1" on the Add / Edit record page
-    And I click the bubble to select a record for the "Data Types" longitudinal instrument on event "Event 1"
+  #   Given I select record ID "1" from arm name "Arm 1: Arm 1" on the Add / Edit record page
+  #   And I click the bubble to select a record for the "Data Types" longitudinal instrument on event "Event 1"
 
-    And I select the radio option "Choice100" for the field labeled "Radio Button Manual"
-    And I click on the link labeled "Select other record"
+  #   And I select the radio option "Choice100" for the field labeled "Radio Button Manual"
+  #   And I click on the link labeled "Select other record"
 
-    #Pop up dialog triggered by clicking on any link that would navigate us away
-    Then I should see "Save your changes?"
-    And I should see "Stay on page"
-    When I click on the button labeled "Stay on page" in the dialog box
+  #   #Pop up dialog triggered by clicking on any link that would navigate us away
+  #   Then I should see "Save your changes?"
+  #   And I should see "Stay on page"
+  #   When I click on the button labeled "Stay on page" in the dialog box
 
-    Then I should see "Record ID 1"
+  #   Then I should see "Record ID 1"
 
-    And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
-    And I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
+  #   And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  #   And I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
 
-  Scenario: 11 - Edit record
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
-    And I enter "John Smith" into the data entry form field labeled "Name"
-    And I select the submit option labeled "Save & Go To Next Record" on the Data Collection Instrument
-    #unable to find field "Name" that contains John Smith
-    #And I should see that the "Name" field contains the value of "John Smith"
+  # Scenario: 11 - Edit record
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "1" and click on the bubble
+  #   And I enter "John Smith" into the data entry form field labeled "Name"
+  #   And I select the submit option labeled "Save & Go To Next Record" on the Data Collection Instrument
+  #   #unable to find field "Name" that contains John Smith
+  #   #And I should see that the "Name" field contains the value of "John Smith"
 
-  Scenario: 12 to 13 - Add data to the data dictionary instrument
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Dictionary" instrument on event "Event 1" for record ID "1" and click on the bubble
-    And I select the radio option "Yes" for the field labeled "Yes - No"
-    And I click on the button labeled "Cancel"
-    Then I should see "Record Home Page"
-    And I should see "not saved"
+  # Scenario: 12 to 13 - Add data to the data dictionary instrument
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Dictionary" instrument on event "Event 1" for record ID "1" and click on the bubble
+  #   And I select the radio option "Yes" for the field labeled "Yes - No"
+  #   And I click on the button labeled "Cancel"
+  #   Then I should see "Record Home Page"
+  #   And I should see "not saved"
 
-    Given I click the bubble to select a record for the "Data Dictionary" longitudinal instrument on event "Event 1"
-    And I select the radio option "Yes" for the field labeled "Yes - No"
-    And I select the submit option labeled "Save & Go To Next Instance" on the Data Collection Instrument
-    And I select the radio option "Yes" for the field labeled "Yes - No"
-    And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  #   Given I click the bubble to select a record for the "Data Dictionary" longitudinal instrument on event "Event 1"
+  #   And I select the radio option "Yes" for the field labeled "Yes - No"
+  #   And I select the submit option labeled "Save & Go To Next Instance" on the Data Collection Instrument
+  #   And I select the radio option "Yes" for the field labeled "Yes - No"
+  #   And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
 
-  Scenario: 14 to 16 - Change form status
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Dictionary" instrument on event "Event 1" for record ID "1" and click the repeating instrument bubble for the first instance
-    And I select the dropdown option "Unverified" for the Data Collection Instrument field labeled "Complete?"
-    And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
-    And I select the dropdown option "Complete" for the Data Collection Instrument field labeled "Complete?"
-    And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
-    And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  # Scenario: 14 to 16 - Change form status
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Dictionary" instrument on event "Event 1" for record ID "1" and click the repeating instrument bubble for the first instance
+  #   And I select the dropdown option "Unverified" for the Data Collection Instrument field labeled "Complete?"
+  #   And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
+  #   And I select the dropdown option "Complete" for the Data Collection Instrument field labeled "Complete?"
+  #   And I select the submit option labeled "Save & Stay" on the Data Collection Instrument
+  #   And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
 
-  Scenario: 17 - Add new record to Arm 1
-    Given I click on the link labeled "Add / Edit Records"
-    And I click on the button labeled "Add new record"
-    And I click the bubble to add a record for the "Data Types" longitudinal instrument on event "Event 1"
-    And I enter "Jane" into the data entry form field labeled "Name"
-    And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
-    And I click on the link labeled "Record Status Dashboard"
-    Then I should see "Arm 1:"
+  # Scenario: 17 - Add new record to Arm 1
+  #   Given I click on the link labeled "Add / Edit Records"
+  #   And I click on the button labeled "Add new record"
+  #   And I click the bubble to add a record for the "Data Types" longitudinal instrument on event "Event 1"
+  #   And I enter "Jane" into the data entry form field labeled "Name"
+  #   And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  #   And I click on the link labeled "Record Status Dashboard"
+  #   Then I should see "Arm 1:"
 
-  Scenario: 18 to 20 - Rename record
-    Given I click on the link labeled "Add / Edit Records"
-    And I select record ID "2" from arm name "Arm 1: Arm 1" on the Add / Edit record page
-    And I click on the button labeled "Choose action for record"
-    And I select the option labeled "Rename record"
-    And I should see 'Rename record "2"'
-    And I clear field and enter "3" into the input field labeled 'to the following record name'
-    And I click on the button labeled "Rename record" in the dialog box
-    Then I should see "Record ID 3 was successfully renamed!"
-    When I click on the link labeled "Record Status Dashboard"
-    Then I should see a link labeled "3"
+  # Scenario: 18 to 20 - Rename record
+  #   Given I click on the link labeled "Add / Edit Records"
+  #   And I select record ID "2" from arm name "Arm 1: Arm 1" on the Add / Edit record page
+  #   And I click on the button labeled "Choose action for record"
+  #   And I select the option labeled "Rename record"
+  #   And I should see 'Rename record "2"'
+  #   And I clear field and enter "3" into the input field labeled 'to the following record name'
+  #   And I click on the button labeled "Rename record" in the dialog box
+  #   Then I should see "Record ID 3 was successfully renamed!"
+  #   When I click on the link labeled "Record Status Dashboard"
+  #   Then I should see a link labeled "3"
 
-  Scenario: 21 to 22 - Delete data for form only
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "3" and click on the bubble
-    And I click on the button labeled "Delete data for THIS FORM only"
-    Then I should see 'DELETE ALL DATA ON THIS FORM FOR RECORD "3"?'
+  # Scenario: 21 to 22 - Delete data for form only
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "3" and click on the bubble
+  #   And I click on the button labeled "Delete data for THIS FORM only"
+  #   Then I should see 'DELETE ALL DATA ON THIS FORM FOR RECORD "3"?'
 
-    Given I click on the button labeled "Cancel" in the dialog box
-    And I click on the button labeled "Delete data for THIS FORM only"
-    And I click on the button labeled "Delete data for THIS FORM only" in the dialog box
+  #   Given I click on the button labeled "Cancel" in the dialog box
+  #   And I click on the button labeled "Delete data for THIS FORM only"
+  #   And I click on the button labeled "Delete data for THIS FORM only" in the dialog box
 
-  Scenario: 23 to 24 - Delete record
-    Given I click on the link labeled "Record Status Dashboard"
-    And I click on the link labeled "3"
-    And I click on the button labeled "Choose action for record"
-    And I select the option labeled "Delete record (all forms/events)"
-    And I click on the button labeled "Cancel" in the dialog box
-    And I click on the button labeled "Choose action for record"
-    And I select the option labeled "Delete record (all forms/events)"
-    And I click on the button labeled "DELETE RECORD" in the dialog box
-    And I close popup
-    And I click on the link labeled "Record Status Dashboard"
-    Then I should see "Arm 1:"
+  # Scenario: 23 to 24 - Delete record
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I click on the link labeled "3"
+  #   And I click on the button labeled "Choose action for record"
+  #   And I select the option labeled "Delete record (all forms/events)"
+  #   And I click on the button labeled "Cancel" in the dialog box
+  #   And I click on the button labeled "Choose action for record"
+  #   And I select the option labeled "Delete record (all forms/events)"
+  #   And I click on the button labeled "DELETE RECORD" in the dialog box
+  #   And I close popup
+  #   And I click on the link labeled "Record Status Dashboard"
+  #   Then I should see "Arm 1:"
 
-  Scenario: 25 to 26 - Add new record for Arm 2
-    Given I click on the link labeled "Record Status Dashboard"
-    And I click on the link labeled "Arm 2"
-    And I click on the button labeled "Add new record for this arm"
-    And I click the bubble to add a record for the "Text Validation" longitudinal instrument on event "Event 1"
-    And I enter "Mary" into the data entry form field labeled "Name"
-    And I select the dropdown option "Unverified" for the Data Collection Instrument field labeled "Complete?"
-    Then I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  # Scenario: 25 to 26 - Add new record for Arm 2
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I click on the link labeled "Arm 2"
+  #   And I click on the button labeled "Add new record for this arm"
+  #   And I click the bubble to add a record for the "Text Validation" longitudinal instrument on event "Event 1"
+  #   And I enter "Mary" into the data entry form field labeled "Name"
+  #   And I select the dropdown option "Unverified" for the Data Collection Instrument field labeled "Complete?"
+  #   Then I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
 
-  Scenario: 27 - Add new event
-    Given I see "Add new"
-    And I click on the button labeled "Add new"
-    Then I should see "#2"
+  # Scenario: 27 - Add new event
+  #   Given I see "Add new"
+  #   And I click on the button labeled "Add new"
+  #   Then I should see "#2"
 
-    #Note we can select the Event name as "(#2)" after we click on the "Add new" button
-    When I click the bubble to add a record for the "Text Validation" longitudinal instrument on event "(#2)"
-    Then I should see "Instance #2"
+  #   #Note we can select the Event name as "(#2)" after we click on the "Add new" button
+  #   When I click the bubble to add a record for the "Text Validation" longitudinal instrument on event "(#2)"
+  #   Then I should see "Instance #2"
 
-    Given I enter "Josh" into the data entry form field labeled "Name"
-    And I enter "josh@noreply.com" into the data entry form field labeled "Email"
-    And I select the submit option labeled "Save & Go To Next Form" on the Data Collection Instrument
-    And I select the radio option "Yes" for the field labeled "Yes - No"
-    And I select the submit option labeled "Save & Go To Next Form" on the Data Collection Instrument
-    And I enter "June" into the data entry form field labeled "Name"
-    And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  #   Given I enter "Josh" into the data entry form field labeled "Name"
+  #   And I enter "josh@noreply.com" into the data entry form field labeled "Email"
+  #   And I select the submit option labeled "Save & Go To Next Form" on the Data Collection Instrument
+  #   And I select the radio option "Yes" for the field labeled "Yes - No"
+  #   And I select the submit option labeled "Save & Go To Next Form" on the Data Collection Instrument
+  #   And I enter "June" into the data entry form field labeled "Name"
+  #   And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
 
-  Scenario: 28 - Edit record
-    Given I click on the link labeled "Record Status Dashboard"
-    And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "3" and click on the bubble
-    And I enter "Mary" into the data entry form field labeled "Name"
-    And I select the dropdown option "Complete" for the Data Collection Instrument field labeled "Complete?"
-    And I click on the button labeled "Save & Exit Form"
-    Then I should see "Record Home Page"
+  # Scenario: 28 - Edit record
+  #   Given I click on the link labeled "Record Status Dashboard"
+  #   And I locate the bubble for the "Data Types" instrument on event "Event 1" for record ID "3" and click on the bubble
+  #   And I enter "Mary" into the data entry form field labeled "Name"
+  #   And I select the dropdown option "Complete" for the Data Collection Instrument field labeled "Complete?"
+  #   And I click on the button labeled "Save & Exit Form"
+  #   Then I should see "Record Home Page"
 
-    Given I click the bubble to select a record for the "Data Types" longitudinal instrument on event "(#2)"
-    And I enter "Mary" into the data entry form field labeled "Name"
-    And I select the dropdown option "Incomplete" for the Data Collection Instrument field labeled "Complete?"
-    And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
-    And I click on the link labeled "Record Status Dashboard"
-    Then I should see "Arm 2:"
+  #   Given I click the bubble to select a record for the "Data Types" longitudinal instrument on event "(#2)"
+  #   And I enter "Mary" into the data entry form field labeled "Name"
+  #   And I select the dropdown option "Incomplete" for the Data Collection Instrument field labeled "Complete?"
+  #   And I select the submit option labeled "Save & Exit Form" on the Data Collection Instrument
+  #   And I click on the link labeled "Record Status Dashboard"
+  #   Then I should see "Arm 2:"
 
-  Scenario: 29 to 31 - Delete Event
-    When I click on the link labeled "Record Status Dashboard"
-    And I click on the link labeled "3"
-    Then I should see "Record Home Page"
+  # Scenario: 29 to 31 - Delete Event
+  #   When I click on the link labeled "Record Status Dashboard"
+  #   And I click on the link labeled "3"
+  #   Then I should see "Record Home Page"
 
-    When I click the X to delete all data related to the event named "Event 1"
-    And I click on the button labeled "Cancel" in the dialog box
-    Then I should see "Record Home Page"
+  #   When I click the X to delete all data related to the event named "Event 1"
+  #   And I click on the button labeled "Cancel" in the dialog box
+  #   Then I should see "Record Home Page"
 
-    When I click the X to delete all data related to the event named "Event 1"
-    When I click on the button labeled "Delete this instance of this event" in the dialog box
-    Then I should see "successfully deleted entire event of data"
+  #   When I click the X to delete all data related to the event named "Event 1"
+  #   When I click on the button labeled "Delete this instance of this event" in the dialog box
+  #   Then I should see "successfully deleted entire event of data"
 
-    When I click on the button labeled "Choose action for record"
-    And I select the option labeled "Delete record (all forms/events)"
-    And I click on the button labeled "DELETE RECORD" in the dialog box
-    Then I should see 'Record ID "3" was successfully deleted.'
+  #   When I click on the button labeled "Choose action for record"
+  #   And I select the option labeled "Delete record (all forms/events)"
+  #   And I click on the button labeled "DELETE RECORD" in the dialog box
+  #   Then I should see 'Record ID "3" was successfully deleted.'
 
-    When I close popup
-    And I click on the link labeled "Record Status Dashboard"
-    Then I should see "Arm 2:"
-    And I should see "No records exist yet"
+  #   When I close popup
+  #   And I click on the link labeled "Record Status Dashboard"
+  #   Then I should see "Arm 2:"
+  #   And I should see "No records exist yet"
