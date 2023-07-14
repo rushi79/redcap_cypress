@@ -5,14 +5,14 @@ Feature: Manage Project
 
     Scenario: 0 - Initial Setup Requirement - Add from Email Address
         Given I am an "admin" user who logs into REDCap
-        And I visit the "Control Center" page
+        And I click on the link labeled "Control Center"
         And I click on the link labeled "General Configuration"
         And I enter "no-reply@test.com" into the input field labeled "Set a Universal FROM Email address"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 0 - Initial Setup Requirement - Edit test_user2 to not Create or Copy Projects
-        Given I visit the "Control Center" page
+        Given I click on the link labeled "Control Center"
         When I click on the link labeled "Browse Users"
         And I enter "test_user2" into the input field labeled "User Search: Search for user by username, first name, last name, or primary email"
         And I click on the button labeled "Search"
@@ -20,11 +20,11 @@ Feature: Manage Project
         When I click on the button labeled "Edit user info"
         And I uncheck the checkbox element labeled "Allow this user to create or copy projects?"
         And I should see "Allow this user to create or copy projects?"
-        And I click on the input button labeled "Save"
+        And I click on the button labeled "Save"
         Then I should see "User has been successfully saved."
 
     Scenario: 1 - Visit Control Center Page
-        Given I visit the "Control Center" page
+        Given I click on the link labeled "Control Center"
         Then I should see "Control Center Home"
 
     Scenario: 2- User Settings Configuration - Create Projects
@@ -32,19 +32,19 @@ Feature: Manage Project
         Then I should see "Yes, normal users can create new projects"
         And I should see "No, only Administrators can create new projects"
         When I select "No, only Administrators can create new projects" on the dropdown field labeled "Allow normal users to create new projects?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 3- User Settings Configuration - Move Projects to Production
         Given I should see "Yes, normal users can move projects to production"
         And I should see "No, only Administrators can move projects to production"
         And I select "No, only Administrators can move projects to production" on the dropdown field labeled "Allow normal users to move projects to production?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 4- User Settings Configuration - Edit Survey Responses
         Given I select "Disabled" on the dropdown field labeled "Allow users to edit survey responses?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 5- User Settings Configuration - Allow Production Draft Mode Changes
@@ -54,21 +54,21 @@ Feature: Manage Project
         And I should see "Yes, if no critical issues exist"
         And I should see "Yes, if project has no records OR if has records and no critical issues exist"
         When I select "Never (always require an admin to approve changes)" on the dropdown field labeled "Allow production Draft Mode changes to be approved automatically under certain conditions?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 6- User Settings Configuration - Modify Repeatable Instruments & Events
         Given I should see "Yes, normal users can modify the repeatable instance setup in production"
         And I should see "No, only Administrators can modify the repeatable instance setup in production"
         When I select "No, only Administrators can modify the repeatable instance setup in production" on the dropdown field labeled "Allow normal users to modify the 'Repeatable Instruments & Events' settings for projects while in production status?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 7- User Settings Configuration - Modify Events and Arms in Production Status
         Given I should see "Yes, normal users can add/modify events in production"
         And I should see "No, only Administrators can add/modify events in production"
         When I select "No, only Administrators can add/modify events in production" on the dropdown field labeled "Allow normal users to add or modify events and arms on the Define My Events page for longitudinal projects while in production status?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 8- Verify test_user2 can not Create or Copy Projects
@@ -82,7 +82,7 @@ Feature: Manage Project
         And I uncheck the checkbox element labeled "Allow this user to request that projects be created for them by a REDCap administrator?"
         # Waiting is sub-ideal but it is seemingly the only way to avoid CSRF errors about multiple tabs!  This seems to be REDCap's fault rather than Cypress.
         And I wait for 0.5 seconds
-        And I click on the input button labeled "Save"
+        And I click on the button labeled "Save"
         Then I should see "User has been successfully saved."
 
     Scenario: 9- Login with test_user2
@@ -103,21 +103,21 @@ Feature: Manage Project
         Given I am an "admin" user who logs into REDCap
 
     Scenario: 13- Allow Normal Users to Create New Projects
-        Given I visit the "Control Center" page
+        Given I click on the link labeled "Control Center"
         And I click on the link labeled "User Settings"
         Then I should see "Settings related to Project Creation and Project Status Changes"
         When I select "Yes, normal users can create new projects" on the dropdown field labeled "Allow normal users to create new projects?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
-    
+
     Scenario: 14- Login with test_user
         Given I am an "standard" user who logs into REDCap
-    
+
     Scenario: 15- Create Project and add test_admin to Project
         Given I click on the link labeled "New Project"
         Then I should see "Create Project"
         And I enter "FirstProject_1115" into the field identified by "input" labeled "Project title:"
-        And I select "Operational Support" on the dropdown table field labeled "Project's purpose:"
+        And I select "Operational Support" on the dropdown field labeled "Project's purpose:"
         And I click on the button labeled "Create Project"
         Then I should see "Your new REDCap project has been created and is ready to be accessed."
 
@@ -132,7 +132,7 @@ Feature: Manage Project
         Given I click on the link labeled "Project Setup"
         And I click on the button labeled "Modify project title, purpose, etc."
         Then I should see "Modify Project Settings"
-        And I select "Practice / Just for fun" on the dropdown table field labeled "Project's purpose:"
+        And I select "Practice / Just for fun" on the dropdown field labeled "Project's purpose:"
         When I click on the button labeled "Save"
         Then I should see "Success! Your changes have been saved."
 
@@ -201,10 +201,10 @@ Feature: Manage Project
         Given I am an "admin" user who logs into REDCap
 
     Scenario: 24 - Allow Normal Users to Move to Production
-        Given I visit the "Control Center" page
+        Given I click on the link labeled "Control Center"
         When I click on the link labeled "User Settings"
         And I select "Yes, normal users can move projects to production" on the dropdown field labeled "Allow normal users to move projects to production?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 25 - Login with test_user
@@ -248,7 +248,7 @@ Feature: Manage Project
 
     Scenario: 31 - Login with test_user
         Given I am an "standard" user who logs into REDCap
-    
+
     Scenario: 32 - Disable / Enable Longitudinal Data Collection
         Given I click on the link labeled "My Projects"
         And I click on the link labeled "FirstProject_1115"
@@ -261,15 +261,15 @@ Feature: Manage Project
         And I click on the button labeled "Define My Events"
         Then I should see "Event 1"
         Given I add an event named "Event 2" into the currently selected arm
-    
+
     Scenario: 34 - Add Event 1 in Arm 2
         When I click on the link labeled "Add New Arm"
         And I enter "Arm 2" into the Arm name field
-        And I click on the input button labeled "Save"
+        And I click on the button labeled "Save"
         Then I should see "No events have been defined for this Arm"
         Given I add an event named "Event 1" into the currently selected arm
         Then I should see "Event 1"
-    
+
     Scenario: 35 - Edit Designate Instruments for Arm 1
         Given I click on the link labeled "Designate Instruments for My Events"
         And I click on the link labeled "Arm 1"
@@ -288,13 +288,13 @@ Feature: Manage Project
         Given I click on the link labeled 'Project Setup'
         And I should see that repeatable instruments are disabled
         And I open the dialog box for the Repeatable Instruments and Events module
-        And I select "Repeat Instruments (repeat independently of each other)" on the dropdown table field labeled "Event 1 (Arm 1: Arm 1)"
+        And I select "Repeat Instruments (repeat independently of each other)" on the dropdown field labeled "Event 1 (Arm 1: Arm 1)"
         And I check the checkbox labeled "Form 1 2"
-        And I select "Repeat Entire Event (repeat all instruments together)" on the dropdown table field labeled "Event 1 (Arm 2: Arm 2)"
+        And I select "Repeat Entire Event (repeat all instruments together)" on the dropdown field labeled "Event 1 (Arm 2: Arm 2)"
         And I click on the button labeled "Save"
         Then I should see "Your settings for repeating instruments and/or events have been successfully saved. (The page will now reload.)"
         Then I should see that repeatable instruments are modifiable
-    
+
     Scenario: 38 - Disable / Enable Surveys
         Given I should see that surveys are disabled
         When I enable surveys for the project
@@ -303,7 +303,7 @@ Feature: Manage Project
         Then I should see that surveys are disabled
         When I enable surveys for the project
         Then I should see that surveys are enabled
-    
+
     #the following # out lines are looking for enabled/disabled surveys for specific instruments. We do not currently have a step definition for individual instrument surveys, only to check if surveys are enabled within the entire project
     Scenario: 39 - Enable Survey for My First Instrument
         Given I click on the button labeled "Online Designer"
@@ -323,7 +323,7 @@ Feature: Manage Project
         Then I should see "Delete this instrument's survey settings"
         And I click on the button labeled "Delete Survey Settings" in the dialog box
         Then I should see "Survey successfully deleted!"
-        And I close popup
+        And I close the popup
         Then I should see "Data Collection Instruments"
 
     Scenario: 41 - Enable Survey for My First Instrument
@@ -338,13 +338,13 @@ Feature: Manage Project
 
     Scenario: 42 - Change Survey Status to Offline
         Given I click on the button labeled "Survey settings"
-        And I select "Survey Offline" on the dropdown table field labeled "Survey Status"
+        And I select "Survey Offline" on the dropdown field labeled "Survey Status"
         And I click on the button labeled "Save Changes"
         Then I should see "Your survey settings were successfully saved!"
 
     Scenario: 43 - Change Survey Status to Active
         Given I click on the button labeled "Survey settings"
-        And I select "Survey Active" on the dropdown table field labeled "Survey Status"
+        And I select "Survey Active" on the dropdown field labeled "Survey Status"
         And I click on the button labeled "Save Changes"
         Then I should see "Your survey settings were successfully saved!"
 
@@ -373,10 +373,10 @@ Feature: Manage Project
         And I am an "admin" user who logs into REDCap
 
     Scenario: 47 - Allow Users to Edit Survey Responses
-        Given I visit the "Control Center" page
+        Given I click on the link labeled "Control Center"
         When I click on the link labeled "User Settings"
         And I select "Enabled" on the dropdown field labeled "Allow users to edit survey responses?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 48 - Login with test_user
@@ -413,7 +413,7 @@ Feature: Manage Project
     Scenario: 53 - Enter Draft Mode and Verify Can Not Delete an Event
         Given I click on the button labeled "Online Designer"
         Then I should see "Enter Draft Mode"
-        When I click on the input button labeled "Enter Draft Mode"
+        When I click on the button labeled "Enter Draft Mode"
         When I click on the link labeled "Project Setup"
         And I click on the button labeled "Define My Events"
 
@@ -429,7 +429,7 @@ Feature: Manage Project
         When I click on the link labeled "Form 1"
         When I add a new Text Box field labeled "Text2" with variable name "text2"
         Then I should see "Variable: text2"
-        When I click on the input button labeled "Submit Changes for Review"
+        When I click on the button labeled "Submit Changes for Review"
         Then I should see "SUBMIT CHANGES FOR REVIEW?"
         When I click on the button labeled "Submit"
         #Then I should see "Awaiting review of project changes"
@@ -451,10 +451,10 @@ Feature: Manage Project
         Then I should see "The changes were NOT committed to the project but were removed"
 
     Scenario: 57 - Allow Users to Make Draft Mode Changes
-        Given I visit the "Control Center" page
+        Given I click on the link labeled "Control Center"
         When I click on the link labeled "User Settings"
         And I select "Yes, if project has no records OR if has records and no critical issues exist" on the dropdown field labeled "Allow production Draft Mode changes to be approved automatically under certain conditions?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 58 - Login with test_user
@@ -466,17 +466,17 @@ Feature: Manage Project
         And I click on the link labeled "FirstProject_1115"
         And I click on the link labeled "Designer"
         Then I should see "The project is currently in PRODUCTION status"
-        And I click on the input button labeled "Enter Draft Mode"
+        And I click on the button labeled "Enter Draft Mode"
         And I click on the link labeled "Form 1"
         When I add a new Text Box field labeled "Text2" with variable name "text2"
         Then I should see "Variable: text2"
-        When I click on the input button labeled "Submit Changes for Review"
+        When I click on the button labeled "Submit Changes for Review"
         And I click on the button labeled "Submit"
         Then I should see "SUCCESS! The changes you just submitted were made AUTOMATICALLY"
         When I click on the button labeled "Close"
 
     Scenario: 60 - Verify Can Not Edit Define My Events in Production
-        Given I click on the input button labeled "Enter Draft Mode"
+        Given I click on the button labeled "Enter Draft Mode"
         Then I should see "Since this project is currently in PRODUCTION"
         When I click on the link labeled "Project Setup"
         And I should see that repeatable instruments are modifiable
@@ -497,14 +497,14 @@ Feature: Manage Project
         And I click on the link labeled "User Settings"
         And I select "Yes, normal users can modify the repeatable instance setup in production" on the dropdown field labeled "Allow normal users to modify the 'Repeatable Instruments & Events' settings for projects while in production status?"
         And I select "Yes, normal users can add/modify events in production" on the dropdown field labeled "Allow normal users to add or modify events and arms on the Define My Events page for longitudinal projects while in production status?"
-        And I click on the input button labeled "Save Changes"
+        And I click on the button labeled "Save Changes"
         Then I should see "Your system configuration values have now been changed!"
 
     Scenario: 64 - Login with test_user
         Given I logout
         And I am an "standard" user who logs into REDCap
 
-    Scenario: 65 - Verify Changing Repeating Forms 
+    Scenario: 65 - Verify Changing Repeating Forms
         Given I click on the link labeled "My Projects"
         And I click on the link labeled "FirstProject_1115"
         And I click on the link labeled "Project Setup"
@@ -517,7 +517,7 @@ Feature: Manage Project
         Then I should see "Close"
         And I click on the button labeled "Close" in the dialog box
 
-        Given I select "Repeat Instruments (repeat independently of each other)" on the dropdown table field labeled "Event 1 (Arm 1: Arm 1)"
+        Given I select "Repeat Instruments (repeat independently of each other)" on the dropdown field labeled "Event 1 (Arm 1: Arm 1)"
         Then I should see "Cancel"
         And I click on the button labeled "Cancel" in the dialog box
 
@@ -525,14 +525,14 @@ Feature: Manage Project
         Given I click on the button labeled "Define My Events"
         Then I should see "Arm 1"
         When I enter "Event 3" into the input field labeled "Descriptive name for this event"
-        And I click on the input button labeled "Add new event"
+        And I click on the button labeled "Add new event"
         Then I should see "Event 3"
 
-    Scenario: 67 - Add Arm 3 
+    Scenario: 67 - Add Arm 3
         Given I should see a link labeled "Add New Arm"
         When I click on the link labeled "Add New Arm"
         And I enter "Arm 3" into the Arm name field
-        And I click on the input button labeled "Save"
+        And I click on the button labeled "Save"
         Then I should see "Arm 3"
 
     Scenario: 68 - Verify Can Not Edit Event 3
@@ -541,8 +541,8 @@ Feature: Manage Project
         And I should see "events can only be renamed by REDCap administrators"
         And I click on the button labeled "Close" in the dialog box
         Then I should see "Event 3"
- 
-    Scenario: 69 - Edit Event 3 
+
+    Scenario: 69 - Edit Event 3
         Given I logout
         And I am an "admin" user who logs into REDCap
         And I click on the link labeled "My Projects"
@@ -579,7 +579,7 @@ Feature: Manage Project
         When I click on the link labeled "Rename Arm 2"
         Then I should see "Arm name:"
         And I enter "Arm Two" into the Arm name field
-        And I click on the input button labeled "Save"
+        And I click on the button labeled "Save"
         Then I should see "Arm Two"
 
     Scenario: 72 - Check Instrument Designation
@@ -610,13 +610,13 @@ Feature: Manage Project
     Scenario: 74 - Submit Automatic Changes
         Given I click on the link labeled "Designer"
         Then I should see "Since this project is currently in PRODUCTION, changes will not be made in real time"
-        When I click on the input button labeled "Submit Changes for Review"
+        When I click on the button labeled "Submit Changes for Review"
         Then I should see "SUBMIT CHANGES FOR REVIEW?"
         When I click on the button labeled "Submit"
         Then I should see "SUCCESS! The changes you just submitted were made AUTOMATICALLY."
         And I click on the button labeled "Close" in the dialog box
 
-    Scenario: 75 - Confirm One Record and Two Instruments 
+    Scenario: 75 - Confirm One Record and Two Instruments
         Given I click on the link labeled "Record Status Dashboard"
         Then I should see a link labeled "1"
         And I should see a link labeled "Arm 1"

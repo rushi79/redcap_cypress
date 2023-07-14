@@ -1,19 +1,24 @@
-import { Given } from "cypress-cucumber-preprocessor/steps";
-
-defineParameterType({
-    name: 'see',
-    regexp: /should see|see/
-})
+import {Given} from "cypress-cucumber-preprocessor/steps";
+require('./parameter_types.js')
 
 /**
  * @module Visibility
  * @author Adam De Fouw <aldefouw@medicine.wisc.edu>
- * @example I (should) see {string}
+ * @example I (should) see {string} < optional element specifier >
  * @param {string} text the text visually seen on screen
+ * @param {string} element - options: < on the tooltip | on the role selector dropdown | on the dialog box  >
  * @description Visually verifies that text exists within the HTML object. NOTE: "should" is optional for readability.
  */
-Given("I {see} {string}", (see, text) => {
-    cy.get('html').should(($html) => { expect($html).to.contain(text) })
+Given("I {see} {string}{baseElement}", (see, text, base_element) => {
+    const choices = {
+        '' : 'div[role=dialog][style*=z-index]:visible,html',
+        ' on the tooltip' : 'div[class*=tooltip]:visible',
+        ' on the popup' : 'div[id*=popup]:visible',
+        ' on the role selector dropdown' : 'div[id=assignUserDropdownDiv]:visible',
+        ' on the dialog box' : 'div[role=dialog][style*=z-index]:visible'
+    }
+
+    cy.get(choices[base_element]).should(($html) => { expect($html).to.contain(text) })
 })
 
 /**
@@ -21,35 +26,18 @@ Given("I {see} {string}", (see, text) => {
  * @author Adam De Fouw <aldefouw@medicine.wisc.edu>
  * @example I should NOT see {string}
  * @param {string} text the text visually seen on screen
+ * @param {string} element - options: < on the tooltip | on the role selector dropdown | on the dialog box  >
  * @description Visually verifies that text does NOT exist within the HTML object.
  */
-Given("I should NOT see {string}", (text) => {
-    cy.get('html').then(($html) => { expect($html).to.not.contain(text) })
-})
+Given("I should NOT see {string}{baseElement}", (text, base_element) => {
+    const choices = {
+        '' : 'div[role=dialog][style*=z-index]:visible,html',
+        ' on the tooltip' : 'div[class*=tooltip]:visible',
+        ' on the role selector dropdown' : 'div[id=assignUserDropdownDiv]:visible',
+        ' on the dialog box' : 'div[role=dialog][style*=z-index]:visible'
+    }
 
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should NOT see {string}
- * @param {string} selector - the selector that identifies an element
- * @description Visually verifies that element exists and is visible
- */
-Given("I should see the element identified by {string}", (selector) => {
-    cy.get(selector).should('exist').and('be.visible')
-})
-
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should NOT see {string}
- * @param {string} selector - the selector that identifies an element
- * @description Visually verifies that element exists and is not visible OR does not exist
- */
-Given("I should no longer see the element identified by {string}", (selector) => {
-    if(Cypress.$(selector).length)
-        cy.get(selector).should('not.be.visible')
-    else
-        cy.get(selector).should('not.exist')
+    cy.get(choices[base_element]).then(($html) => { expect($html).to.not.contain(text) })
 })
 
 /**
@@ -65,95 +53,56 @@ Given("I should see {string} in the title", (title) => {
 
 /**
  * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should see a button labeled {string}
- * @param {string} label the label on a button
- * @description Visually verifies that there is a button with a specific label.
+ * @author Adam De Fouw <aldefouw@medicine.wisc.edu>
+ * @example I should see the < dropdown | multiselect > field labeled {string} with the option {string} selected
+ * @param {string} label - the label of the field
+ * @param {string} option - the option selected
+ * @description Selects a specific item from a dropdown
  */
-Given("I should see a button labeled {string}", (label) => {
-    cy.get('button').contains(label)
+Given('I should see the {dropdown_type} field labeled {string} with the option {string} selected', (type, label, option) => {
+    let label_selector = `:contains("${label}"):visible`
+    let element_selector = `select:has(option:contains("${option}")):visible`
+    cy.top_layer(label_selector).within(() => {
+        cy.get_labeled_element(element_selector, label).find(':selected').should('have.text', option)
+    })
+})
+
+/**
+ * @module Reporting
+ * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
+ * @example I should see the {dropdown_type} field labeled {string} with the options below
+ * @param {string} selector the selector that identifies a dropbox
+ * @param {string} label the label of the row the selector belongs to
+ * @param {DataTable} options the Data Table of selectable options
+ * @description Visibility - Visually verifies that the element selector labeled label has the options listed
+ */
+Given("I should see the {dropdown_type} field labeled {string} with the options below", (type, label, options) => {
+    let label_selector = `:contains("${label}"):visible`
+
+    cy.top_layer(label_selector).within(() => {
+        for(let i = 0; i < options.rawTable[0].length; i++){
+            let element_selector = `select:has(option:contains("${options.rawTable[0][i]}")):visible`
+            let dropdown = cy.get_labeled_element(element_selector, label)
+            dropdown.should('contain', options.rawTable[0][i])
+            cy.wait(500)
+        }
+    })
 })
 
 /**
  * @module Visibility
  * @author Adam De Fouw <aldefouw@medicine.wisc.edu>
- * @example I should see a link labeled {string}
- * @param {string} label the label on an anchor tag
- * @description Visually verifies that there is a link with a specific label.
+ * @example I should see a checkbox labeled {string} that is {check}
+ * @param {string} label - the label associated with the checkbox field
+ * @param {check} check - state of checkbox (check/unchecked)
+ * @description Selects a checkbox field by its label
  */
-Given("I should see a link labeled {string}", (label) => {
-    cy.get('a').contains(label)
-})
-
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should see a new dialog box named {string}
- * @param {string} text the id of the new dialog box
- * @description Visually verifies that there is a new dialog box with the id text
- */
-Given("I should see a new dialog box named {string}", (text) => {
-    // Need to make this more specific for dialog boxes dialog, simpleDialog, etc
-    cy.get('div[id="' + text + '"]', { timeout: 10000 }).should('be.visible')
-})
-
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should see the checkbox identified by {string}, {check}
- * @param {string} selector - the selector that identifies a checkbox
- * @param {string} check - valid choices are 'checked' OR 'unchecked'
- * @description Visually verifies that a specified checkbox is checked or uncheck
- */
-defineParameterType({
-    name: 'check',
-    regexp: /checked|unchecked/
-})
- Given("I should see the checkbox identified by {string}, {check}", (sel, check) => {
-    //Really only added this to delay cypress cause sometimes it was moving forward without being checked
-    //ATTN: Function no longer needed, can probably delete if no one needs it
-    check == 'checked' ? cy.get(sel).should('be.checked') : cy.get(sel).should('not.be.checked')
-})
-
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should see the input field identified by {string} with the value {string}
- * @param {string} selector the selector that identifies an input field
- * @param {string} text the text that the input field should be set to
- * @description Visually verifies that a specified input field is set to text
- */
-
-Given("I should see the input field identified by {string} with the value {string}", (selector, text) => {
-    text = text.replaceAll('\\n', '\n')
-    cy.get(selector).should("have.value", text)
-})
-
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should see the dropdown identified by {string} with the options below
- * @param {string} selector the selector that identifies a dropbox
- * @param {DataTable} options the Data Table of selectable options
- * @description Visibility - Visually verifies that the element selector has the options listed
- */
-Given("I should see the dropdown identified by {string} with the options below", (selector, options) => {
-    for(let i = 0; i < options.rawTable[0].length; i++){
-        cy.get(selector).should('contain', options.rawTable[0][i])
-    }
-})
-
-/**
- * @module Visibility
- * @author Tintin Nguyen <tin-tin.nguyen@nih.gov>
- * @example I should see the dropdown identified by {string} with the option {string} selected
- * @param {string} selector the selector that identifies a checkbox
- * @param {string} option the option that should be selected
- * @description Visually verifies that a specified dropdown has the option selected
- */
-Given("I should see the dropdown identified by {string} with the option {string} selected", (selector, option) => {
-    //cy.get(selector).invoke('val').should('eq', option)
-    cy.get(selector).find(':selected').should('have.text', option)
+Given("I should see a checkbox labeled {string} that is {check}", (field_type, label, check) => {
+    let label_selector = `:contains("${label}"):visible`
+    let element_selector = `input[type=checkbox]:visible`
+    cy.top_layer(label_selector).within(() => {
+        cy.get_labeled_element(element_selector, label).should(check === "checked" ? "be.checked" : "not.be.checked")
+    })
 })
 
 /**
@@ -164,18 +113,11 @@ Given("I should see the dropdown identified by {string} with the option {string}
  * @description Visually verifies that the alert box contains text
  */
 Given("I should see {string} in an alert box", (text) => {
-    
     cy.on('window:alert',(txt)=>{
         //Mocha assertions
         expect(txt).to.contains(text);
     })
     cy.on('window:confirm', () => true)
-
-})
-
-defineParameterType({
-    name: 'select',
-    regexp: /selected|unselected/
 })
 
 /**
@@ -187,7 +129,7 @@ defineParameterType({
  * @description Visually verifies that the alert box contains text
  */
 Given("I should see the radio labeled {string} with option {string} {select}", (label, option, selected) => {
-    cy.select_radio_by_label(label, option, false, selected === 'selected' ? true: false)
+    cy.select_radio_by_label(label, option, false, selected === 'selected')
 })
 
 /**
@@ -201,3 +143,90 @@ Given("I should see a dialog containing the following text: {string}", (text) =>
     cy.verify_text_on_dialog(text)
 })
 
+/**
+ * @module Visibility
+ * @author Corey DeBacker <debacker@wisc.edu>
+ * @example I should see a < button | link > labeled {string}
+ * @param {string} text - the label of the link that should be seen on screen (matches partially)
+ * @description Verifies that a visible element of the specified type containing `text` exists
+ */
+Given("I should see a {LabeledElement} labeled {string}", (el, text) => {
+    // double quotes need to be re-escaped before inserting into :contains() selector
+    text = text.replaceAll('\"', '\\\"')
+    let subsel = {'link':'a', 'button':'button'}[el]
+    let sel = `${subsel}:contains("${text}"):visible` + (el === 'button' ? `,button[value="${text}"]` : '')
+    cy.get_top_layer(($e) => {expect($e.find(sel).length).to.be.above(0)})
+})
+
+/**
+ * @module Visibility
+ * @author Corey DeBacker <debacker@wisc.edu>
+ * @example I should NOT see a < button | link > labeled {string}
+ * @param {string} text - the label of the link that should not be seen on screen (matches partially)
+ * @description Verifies that there are no visible elements of the specified type with the label `text`
+ */
+Given("I should NOT see a {LabeledElement} labeled {string}", (el, text) => {
+    // double quotes need to be re-escaped before inserting into :contains() selector
+    text = text.replaceAll('\"', '\\\"')
+    let subsel = {'link':'a', 'button':'button'}[el]
+    let sel = `${subsel}:contains("${text}"):visible` + (el === 'button' ? `,button[value="${text}"]:visible` : '')
+    cy.get_top_layer(($e) => {console.log(sel);expect($e.find(sel)).to.have.lengthOf(0)})
+})
+
+/**
+ * @module Visibility
+ * @author Adam De Fouw <aldefouw@medicine.wisc.edu>
+ * @example I should see {string} in the data entry form field labeled {string}
+ * @param {string} text - the text that should be in the field
+ * @param {string} label - the label of the field
+ * @description Identifies specific text string in a field identified by a label.
+ */
+Given('I should see {string} in the data entry form field labeled {string}', (text, label) => {
+    cy.contains('label', label)
+        .invoke('attr', 'id')
+        .then(($id) => {
+            cy.get('[name="' + $id.split('label-')[1] + '"]').should('have.value', text)
+        })
+})
+
+/**
+ * @module Visibility
+ * @author Adam De Fouw <aldefouw@medicine.wisc.edu>
+ * @example I (should) see (a(n)) {string} within the {string} row of the column labeled {string}(table_name)
+ * @param {string} table_item - the item that you are searching for - includes "checkmark", "x", or any {string}
+ * @param {string} row_label - the label of the table row
+ * @param {string} column_label - the label of the table column
+ * @param {string} table_name - optional table item - " of the User Rights table"
+ * @description Identifies specific text or special item within a cell on a table based upon row and column labels
+ */
+Given("I (should )see (a )(an ){string} within the {string} row of the column labeled {string}{tableName}", (item, row_label, column_label, table) => {
+    const user_rights = { "checkmark" : `img[src*="tick"]`, "x" : `img[src*="cross"]`, "shield" : `img[src*="shield"]`  }
+
+    cy.table_cell_by_column_and_row_label(column_label, row_label).then(($td) => {
+        if(table === " of the User Rights table" && item.toLowerCase() in user_rights){
+            expect($td.find(user_rights[item.toLowerCase()]).length).to.be.eq(1)
+        } else {
+            expect($td).to.contain(item)
+        }
+    })
+})
+
+/**
+ * @module Visibility
+ * @author Rushi Patel <rushi.patel@uhnresearch.ca>
+ * @example I should see {string} in the < optional type > table
+ * @param {string} text - text to look for
+ * @param {string} type - options: < logging | browse users >
+ * @description Identify specific text within a table
+ */
+Given('I should see {string} in the {tableTypes} table', (text, table_type = '') => {
+    let selector = 'table'
+
+    if(table_type === 'logging'){
+        selector = 'table.form_border'
+    } else if (table_type === 'browse users'){
+        selector = 'table#sponsorUsers-table'
+    }
+
+    cy.get(selector).contains('td', text, { matchCase: false });
+})

@@ -6,7 +6,7 @@ Feature: Field Validation
   Scenario: 0 - Project Setup
     Given I am an "admin" user who logs into REDCap
     And I create a project named "FirstProject_1115" with project purpose Practice / Just for fun via CDISC XML import from fixture location "cdisc_files/core/07_DesignForms_v1115.xml"
-  
+
     And I click on the link labeled "Control Center"
     And I click on the link labeled "Field Validation Types"
 
@@ -28,7 +28,7 @@ Feature: Field Validation
     When I click on the button labeled "Choose action for record"
     And I select the option labeled "Delete record (all forms/events)"
     And I click on the button labeled "DELETE RECORD" in the dialog box
-    And I close popup
+    And I close the popup
 
     And I click on the link labeled "Project Setup"
 
@@ -37,7 +37,7 @@ Feature: Field Validation
     And I should see that longitudinal mode is "disabled"
 
     And I open the dialog box for the Repeatable Instruments and Events module
-    And I check the checkbox in table labeled "Text Validation"
+    And I check the checkbox labeled "Text Validation"
     And I click on the button labeled "Save" in the dialog box
 
     And I should see that repeatable instruments are modifiable
@@ -57,7 +57,7 @@ Feature: Field Validation
     When I click on the button labeled "Data Dictionary"
     And I upload the data dictionary located at "core/08_FieldValidation_v1115_DataDictionary.csv"
     Then I should see "Changes Made Successfully!"
-    
+
   Scenario: 4 - Open Text Validation Instrument 
     When I click on the link labeled "Designer"
     And I click on the link labeled "Text Validation"
@@ -67,7 +67,7 @@ Feature: Field Validation
     Given I click on the Add Field input button below the field named "Record ID"
     And I select "Text Box (Short Text, Number, Date/Time, ...)" from the Field Type dropdown of the open "Edit Field" dialog box
     Then I should see the dropdown identified by "[name=val_type]" with the options below
-    | Date (D-M-Y) | Date (Y-M-D) | Datetime (M-D-Y H:M) | Datetime (Y-M-D H:M) | Datetime w/ seconds (D-M-Y H:M:S) | Datetime w/ seconds (M-D-Y H:M:S) | Phone (North America) | Zipcode (U.S.) |
+      | Date (D-M-Y) | Date (Y-M-D) | Datetime (M-D-Y H:M) | Datetime (Y-M-D H:M) | Datetime w/ seconds (D-M-Y H:M:S) | Datetime w/ seconds (M-D-Y H:M:S) | Phone (North America) | Zipcode (U.S.) |
 
     # ^ this might not be what we want, this is checking for these options and not that the options specified in the script are not there
     When I click on the button labeled "Cancel"
@@ -84,7 +84,7 @@ Feature: Field Validation
     And I enable the Field Validation Type named "Number (1 decimal place - comma as decimal)" within the Control Center
     And I enable the Field Validation Type named "Time (HH:MM)" within the Control Center
 
-  Scenario: 7 - Open Text Validation Instrument 
+  Scenario: 7 - Open Text Validation Instrument
     Given I click on the link labeled "My Projects"
     And I click on the link labeled "FirstProject_1115"
     When I click on the link labeled "Designer"
@@ -93,7 +93,7 @@ Feature: Field Validation
     Given I click on the Add Field input button below the field named "Record ID"
     And I select "Text Box (Short Text, Number, Date/Time, ...)" from the Field Type dropdown of the open "Edit Field" dialog box
     Then I should see the dropdown identified by "select[id=val_type]" with the options below
-    | Date (D-M-Y) | Datetime (M-D-Y H:M) | Datetime w/ seconds (Y-M-D H:M:S) | Email | Integer | Number | Number (1 decimal place - comma as decimal) | Time (HH:MM) |
+      | Date (D-M-Y) | Datetime (M-D-Y H:M) | Datetime w/ seconds (Y-M-D H:M:S) | Email | Integer | Number | Number (1 decimal place - comma as decimal) | Time (HH:MM) |
     When I click on the button labeled "Cancel"
 
   Scenario: 8 - Add A New Record

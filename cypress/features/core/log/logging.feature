@@ -88,7 +88,7 @@ Feature: Logging
     And I click on the button labeled "Choose action for record"
     And I select the option labeled "Delete record (all forms)"
     And I click on the button labeled "DELETE RECORD"
-    Then I close popup
+    Then I close the popup
 
   Scenario: 7 - Add new role
     Given I click on the link labeled "User Rights"
@@ -131,7 +131,7 @@ Feature: Logging
     And I check the User Right named 'Record Locking Customization'
     And I select the User Right named "Lock/Unlock Records" and choose "Locking / Unlocking with E-signature authority"
     Then I should see "NOTICE"
-    And I close popup
+    And I close the popup
     And I check the User Right named "Create Records"
     And I save changes within the context of User Rights
 
@@ -178,7 +178,7 @@ Feature: Logging
 
   Scenario: 18 - Unlock form
     Given I see "Instrument locked by test_user2"
-    And I click on the input button labeled "Unlock form"
+    And I click on the button labeled "Unlock form"
     Then I should see "UNLOCK FORM?"
     And I click on the button labeled "Unlock"
     Then I should see "UNLOCK SUCCESSFUL!"
@@ -242,9 +242,9 @@ Feature: Logging
     Then I should see 'Updated User' in the logging table
     And I should see 'Created User' in the logging table
     And I should see 'Deleted User' in the logging table
-    And I should see 'user = \'test_user\'' in the logging table
-    And I should see 'user = \'test_user2\'' in the logging table
-    And I should see 'role = \'Data\'' in the logging table
+    And I should see "user = 'test_user'" in the logging table
+    And I should see "user = 'test_user2'" in the logging table
+    And I should see "role = 'Data'" in the logging table
 
   Scenario: 25 - Logging: filter by event - Record created-updated-deleted
     Then I click on the link labeled "Logging"
@@ -252,11 +252,11 @@ Feature: Logging
     Then I should see 'Updated Record' in the logging table
     And I should see 'Created Record' in the logging table
     And I should see 'Deleted Record' in the logging table
-    And I should see 'record_id = \'3\'' in the logging table
-    And I should see 'ptname = \'Delete\', email = \'delete@test.com\', text_validation_complete = \'0\', record_id = \'3\'' in the logging table
-    And I should see 'ptname = \'Test2\', email = \'test2@test.com\', text_validation_complete = \'0\', record_id = \'2\'' in the logging table
-    And I should see 'ptname = \'Testing\'' in the logging table
-    And I should see 'ptname = \'Test\', email = \'test@test.com\', text_validation_complete = \'0\', record_id = \'1\'' in the logging table
+    And I should see "record_id = '3'" in the logging table
+    And I should see "ptname = 'Delete', email = 'delete@test.com', text_validation_complete = '0', record_id = '3'" in the logging table
+    And I should see "ptname = 'Test2', email = 'test2@test.com', text_validation_complete = '0', record_id = '2'" in the logging table
+    And I should see "ptname = 'Testing'" in the logging table
+    And I should see "ptname = 'Test', email = 'test@test.com', text_validation_complete = '0', record_id = '1'" in the logging table
 
   Scenario: 26 - Logging: filter by event - Record locking & e-signatures
     Then I click on the link labeled "Logging"
@@ -272,7 +272,7 @@ Feature: Logging
     Then I click on the link labeled "Logging"
     And I select the "Page Views" option identified by "page_view" from the Filter by event dropdown field
     Then I should see 'Page View' in the logging table
-    And I should see '/redcap_v11.1.5/Logging/index.php?pid=13' in the logging table
+    And I should see '/Logging/index.php' in the logging table
 
   Scenario: 28 - Logging: filter by event - All event types (username) - by specific username
     Then I click on the link labeled "Logging"
@@ -284,24 +284,24 @@ Feature: Logging
     Then I click on the link labeled "Logging"
     And I select the '2' option from the Filter by record dropdown field
     Then I should see 'Created Record' in the logging table
-    And I should see 'ptname = \'Test2\', email = \'test2@test.com\', text_validation_complete = \'0\', record_id = \'2\'' in the logging table
+    And I should see "ptname = 'Test2', email = 'test2@test.com', text_validation_complete = '0', record_id = '2'" in the logging table
 
   Scenario: 30 - Download All logging and open file to verify
 
     Then I click on the link labeled "Logging"
-    And I export all logging from the project and verify the result against expected logging results in the file named "23Logging1115_ExpectedLogs.csv"
+    And I export all logging from the project and verify the result against expected logging results for this version of REDCap
 
   Scenario: 31 - Login as admin
     Given I am an "admin" user who logs into REDCap
 
   Scenario: 32 - Delete a record’s logging activity when deleting the records
-    When I visit the "Control Center" page
+    When I click on the link labeled "Control Center"
     And I click on the link labeled "Edit a Project's Settings"
     And I select 'Logging_Feature' from the dropdown identified by 'select'
     #And I click on the dropdown identified by 'select' and select value '14' labelled by
     Then I should see "project settings"
     And I select "Yes, delete the record's logged events when deleting the record" on the dropdown field labeled "Delete a record's logging activity when deleting the record?"
-    And I click on the input button labeled "Save Changes"
+    And I click on the button labeled "Save Changes"
     And I click on the link labeled "Logging"
 
   Scenario: 33 - Login as test_user
@@ -328,7 +328,7 @@ Feature: Logging
 
     And I click on the button labeled "DELETE RECORD"
     And I should see 'Record ID "2" was successfully deleted'
-    Then I close popup
+    Then I close the popup
 
   Scenario: 35 - Logging: filter by event - Record created-updated-deleted
     Then I click on the link labeled "Logging"
@@ -337,7 +337,7 @@ Feature: Logging
     And I should see 'Created Record' in the logging table
     And I should see 'Deleted Record' in the logging table
     #And I should see '[*DATA REMOVED*]' in the logging table
-    #And I should see '[All data values were removed from this record\'s logging activity.]' in the logging table
+    #And I should see '[All data values were removed from this record's logging activity.]' in the logging table
 
   Scenario: 36 - Login as admin
     Given I am an "admin" user who logs into REDCap
@@ -365,14 +365,12 @@ Feature: Logging
     And I click on the button labeled "Define My Events"
     And I click on the link labeled "+Add New Arm"
     And I enter "Arm 2" into the Arm name field
-    And I click on the input button labeled "Save"
+    And I click on the button labeled "Save"
     Then I should see "No events have been defined for this Arm"
-    And I enter "Event 1" into the input field labeled "Descriptive name for this event"
-    And I click on the input button labeled "Add new event"
+    And I add an event named "Event 1" into the currently selected arm
     Then I should see "Event 1"
 
   Scenario: 37 - Designate Instrument
-    Given I wait for 1 seconds
     When I click on the link labeled "Designate Instruments for My Events"
 
     #Arm 1
@@ -416,14 +414,14 @@ Feature: Logging
     # And I enter 'DELETE' into the field identified by 'input[type=text]'
     # And I click on the button labeled 'Confirm'
     And I click on the button labeled "DELETE RECORD"
-    Then I close popup
+    Then I close the popup
 
   Scenario: 42 - Logging: filter by event - Record created-updated-deleted
 
     Then I click on the link labeled "Logging"
     And I select the "Record created-updated-deleted" option identified by "record" from the Filter by event dropdown field
     #Then I should see '[*DATA REMOVED*]' in the logging table
-    #And I should see '[All data values were removed from this record\'s logging activity.]' in the logging table
+    #And I should see '[All data values were removed from this record's logging activity.]' in the logging table
 
   Scenario: 43 - Logout
     Given I logout

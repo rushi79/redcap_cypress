@@ -35,7 +35,7 @@ Feature: Project Status
     When I click on the link labeled "Control Center"
     And I click on the link labeled "User Settings"
     And I select "Yes, normal users can move projects to production" on the dropdown field labeled "Allow normal users to move projects to production?"
-    And I click on the input button labeled "Save Changes"
+    And I click on the button labeled "Save Changes"
     Then I should see "Your system configuration values have now been changed!"
 
   Scenario: 6  - Login as test user
@@ -50,7 +50,7 @@ Feature: Project Status
     When I click on the button labeled "Move project to production"
     And I move the project to production by selection option "Keep ALL data saved so far"
     When I click on the link labeled "Add / Edit Records"
-    Then I should see the dropdown identified by "[id=record]" labeled "-- select record --" with the options below
+    Then I should see the dropdown field labeled "Choose an existing Record ID" with the options below
     | 1 |
 
   Scenario: 9 - Other Functionality Tab 
@@ -79,7 +79,8 @@ Feature: Project Status
     When I click on the button labeled "Move project to production"
     And I move the project to production by selection option "Delete ALL data"
     When I click on the link labeled "Add / Edit Records"
-    Then I should see the dropdown identified by "[id=record]" labeled "-- select record --" with the options below
+
+    Then I should see the dropdown field labeled "Choose an existing Record ID" with the options below
     | |
     When I click on the link labeled "Record Status Dashboard"
     Then I should see "No records exist yet"
@@ -131,7 +132,7 @@ Feature: Project Status
     Then I should see "NOTICE: Project was marked as Completed"
     When I click on the button labeled "Restore Project"
     Then I should see "PROJECT RESTORED!"
-    And I close popup
+    And I close the popup
 
   Scenario: 22 - Login as test user
     Given I logout
@@ -198,6 +199,6 @@ Feature: Project Status
     Then I should see "NOTICE: Project was marked as Completed" 
     When I click on the button labeled "Restore Project"
     Then I should see "PROJECT RESTORED!"
-    And I close popup
+    And I close the popup
 
 

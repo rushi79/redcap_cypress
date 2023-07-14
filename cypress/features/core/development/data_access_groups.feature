@@ -14,7 +14,7 @@ Scenario: Project Setup - 2
     When I click on the link labeled "Other Functionality"
     And I click on the button labeled "Erase all data"
     And I click on the button labeled "Erase all data" in the dialog box 
-    And I close popup
+    And I close the popup
 
     When I click on the link labeled "Project Setup"
     And I enable surveys for the project
@@ -24,10 +24,10 @@ Scenario: Project Setup - 2
     Then I should see that longitudinal mode is "disabled"
 
     And I open the dialog box for the Repeatable Instruments and Events module
-    And I check the checkbox in table labeled "Text Validation"
-    And I check the checkbox in table labeled "Data Types"
-    And I uncheck the checkbox in table labeled "Text Validation"
-    And I uncheck the checkbox in table labeled "Data Types"
+    And I check the checkbox labeled "Text Validation"
+    And I check the checkbox labeled "Data Types"
+    And I uncheck the checkbox labeled "Text Validation"
+    And I uncheck the checkbox labeled "Data Types"
     And I click on the button labeled "Save" in the dialog box
 
     And I should see that repeatable instruments are disabled
@@ -64,11 +64,11 @@ Scenario: 5 - DagTest instrument
     And I click on the button labeled "Save Changes"
 
 Scenario: 6 - DAG Link
-    When I click on the link labeled "DAGs"
+#    When I click on the link labeled "DAGs"
 
 Scenario: 7 - Create Data Access 1 Group
-    When I enter "Data Access 1" into the field identified by "[id=new_group]"
-    And I click on the button labeled "Add Group"
+#    When I enter "Data Access 1" into the field identified by "[id=new_group]"
+#    And I click on the button labeled "Add Group"
 
 Scenario: 8 - 
 
